@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Event } from './TimelineCanvas';
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,19 @@ interface TimelineEventProps {
 }
 
 const TimelineEvent: React.FC<TimelineEventProps> = ({ event, onDelete }) => {
-  const cardClass = `timeline-card timeline-card-${event.side}`;
+  const getCardPosition = () => {
+    // Determine position based on event type
+    if (event.type === 'income') {
+      return 'absolute -translate-x-1/2 -top-4 -translate-y-full';
+    } else if (event.type === 'expense') {
+      return 'absolute -translate-x-1/2 top-4';
+    } else {
+      // For milestone/goal use the side property
+      return event.side === 'top'
+        ? 'absolute -translate-x-1/2 -top-4 -translate-y-full'
+        : 'absolute -translate-x-1/2 top-4';
+    }
+  };
   
   const getTypeColor = () => {
     switch (event.type) {
@@ -30,13 +41,13 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({ event, onDelete }) => {
   };
   
   return (
-    <div className={cardClass} style={{ top: `${event.age * 40}px` }}>
-      <Card className="border border-gray-200 shadow-sm">
+    <div className={`${getCardPosition()} z-30 w-48 shadow-lg transition-opacity duration-200`}>
+      <Card className="border border-gray-200">
         <CardHeader className="pb-2">
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
-              <CardTitle className="text-lg font-semibold">{event.title}</CardTitle>
-              <span className="text-sm text-gray-500">Age {event.age}</span>
+              <CardTitle className="text-sm font-semibold">{event.title}</CardTitle>
+              <span className="text-xs text-gray-500">Age {event.age}</span>
             </div>
             <span className={`text-xs px-2 py-1 rounded-full font-medium ${getTypeColor()}`}>
               {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
@@ -44,16 +55,16 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({ event, onDelete }) => {
           </div>
         </CardHeader>
         <CardContent className="py-2">
-          <p className="text-sm text-gray-600">{event.description}</p>
+          <p className="text-xs text-gray-600">{event.description}</p>
           {event.amount > 0 && (
-            <p className="text-sm font-medium mt-2">
+            <p className="text-xs font-medium mt-2">
               {formatCurrency(event.amount)}
             </p>
           )}
         </CardContent>
         <CardFooter className="pt-0 flex justify-end">
-          <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={onDelete}>
-            <Trash2 className="h-4 w-4" />
+          <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50 h-7 px-2" onClick={onDelete}>
+            <Trash2 className="h-3 w-3" />
           </Button>
         </CardFooter>
       </Card>

@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import TimelineCanvas from "@/components/timeline/TimelineCanvas";
@@ -71,7 +70,9 @@ export default function Dashboard() {
             </TabsList>
             
             <TabsContent value="timeline" className="w-full">
-              <TimelineCanvas />
+              <div className="w-full overflow-hidden">
+                <TimelineCanvas />
+              </div>
             </TabsContent>
             
             <TabsContent value="health-score">

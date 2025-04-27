@@ -5,35 +5,43 @@ interface TimelineNodeProps {
   age: number;
   type: 'income' | 'expense' | 'goal' | 'milestone';
   amount: number;
+  heightPercentage: number;
 }
 
-const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
-  // Scale the arrow height based on amount (1px = $1000)
+const TimelineNode: React.FC<TimelineNodeProps> = ({ type, amount, heightPercentage }) => {
+  // Get arrow height scaled by percentage of max amount
+  // Minimum height of 24px, scales up based on percentage
   const getArrowHeight = () => {
-    const baseHeight = Math.max(24, Math.min(100, amount / 1000));
-    return baseHeight;
+    return Math.max(24, (heightPercentage * 200) / 100); // Max height of 200px
   };
 
   if (type === 'income') {
     return (
       <div className="absolute" style={{ 
-        top: '50%',
-        transform: 'translateY(-50%)',
+        transform: 'translateX(-50%)',
         zIndex: 10,
+        height: `${getArrowHeight()}px`,
+        width: '24px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: `${getArrowHeight()}px`,
+        marginTop: `-${getArrowHeight()}px`, // Move up from the x-axis
       }}>
         <ArrowUp 
           className="text-green-500" 
           size={24}
           style={{ 
             position: 'absolute',
-            bottom: '0',
-            height: `${getArrowHeight()}px` 
+            top: '0',
+            height: `${getArrowHeight()}px`,
+            width: '100%'
           }}
         />
+        {amount > 0 && (
+          <div className="absolute text-xs font-medium text-green-600" style={{ top: '4px' }}>
+            ${(amount / 1000).toFixed(0)}k
+          </div>
+        )}
       </div>
     );
   }
@@ -41,13 +49,13 @@ const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
   if (type === 'expense') {
     return (
       <div className="absolute" style={{ 
-        top: '50%',
-        transform: 'translateY(-50%)',
+        transform: 'translateX(-50%)',
         zIndex: 10,
+        height: `${getArrowHeight()}px`,
+        width: '24px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: `${getArrowHeight()}px`,
       }}>
         <ArrowDown 
           className="text-red-500" 
@@ -55,9 +63,15 @@ const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
           style={{ 
             position: 'absolute',
             top: '0',
-            height: `${getArrowHeight()}px` 
+            height: `${getArrowHeight()}px`,
+            width: '100%'
           }}
         />
+        {amount > 0 && (
+          <div className="absolute text-xs font-medium text-red-600" style={{ bottom: '4px' }}>
+            ${(amount / 1000).toFixed(0)}k
+          </div>
+        )}
       </div>
     );
   }
@@ -67,8 +81,7 @@ const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
     <div 
       className="w-3 h-3 bg-fin-purple rounded-full absolute"
       style={{ 
-        top: '50%',
-        transform: 'translateY(-50%)',
+        transform: 'translate(-50%, -50%)',
         zIndex: 10
       }}
     />
