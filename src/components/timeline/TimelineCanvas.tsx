@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -13,14 +12,14 @@ export interface Event {
   description: string;
   amount: number;
   age: number;
-  side: 'left' | 'right';
+  side: 'top' | 'bottom';  // Changed from left/right to top/bottom
 }
 
 export default function TimelineCanvas() {
   const [events, setEvents] = useState<Event[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentAge] = useState(25);
-  const [ages] = useState(Array.from({ length: 91 }, (_, i) => i));
+  const [ages] = useState(Array.from({ length: 56 }, (_, i) => i + 15)); // 15 to 70
   
   // Sample data for demonstration
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function TimelineCanvas() {
         description: 'Started career at Tech Company',
         amount: 60000,
         age: 22,
-        side: 'left' as const
+        side: 'top' as const
       },
       {
         id: '2',
@@ -41,7 +40,7 @@ export default function TimelineCanvas() {
         description: 'Graduated with Bachelor\'s degree',
         amount: 0,
         age: 21,
-        side: 'right' as const
+        side: 'bottom' as const
       },
       {
         id: '3',
@@ -50,7 +49,7 @@ export default function TimelineCanvas() {
         description: 'Purchase first home',
         amount: 300000,
         age: 30,
-        side: 'left' as const
+        side: 'top' as const
       },
       {
         id: '4',
@@ -59,7 +58,7 @@ export default function TimelineCanvas() {
         description: 'New vehicle',
         amount: 25000,
         age: 26,
-        side: 'right' as const
+        side: 'bottom' as const
       }
     ];
     
@@ -68,7 +67,7 @@ export default function TimelineCanvas() {
   
   const addEvent = (newEvent: Omit<Event, 'id' | 'side'>) => {
     const id = Math.random().toString(36).substr(2, 9);
-    const side = Math.random() > 0.5 ? 'left' : 'right';
+    const side = Math.random() > 0.5 ? 'top' : 'bottom';
     setEvents([...events, { ...newEvent, id, side }]);
     setIsModalOpen(false);
   };
@@ -95,28 +94,30 @@ export default function TimelineCanvas() {
         </Button>
       </div>
       
-      <div className="relative w-full h-[600px] overflow-y-auto p-4">
-        <div className="timeline-line"></div>
+      <div className="relative w-full h-[300px] overflow-x-auto p-4">
+        <div className="timeline-line-horizontal"></div>
         
         {/* Age markers */}
-        {ages.map(age => (
-          <div 
-            key={age} 
-            className={`absolute w-full text-xs text-gray-500 ${age % 5 === 0 ? 'font-medium' : 'hidden'}`} 
-            style={{ top: `${age * 40}px` }}
-          >
-            <div className="absolute left-0 w-full border-t border-dashed border-gray-200"></div>
-            <div className="absolute -left-6">{age}</div>
-          </div>
-        ))}
-        
-        {/* Timeline nodes and events */}
-        {events.map(event => (
-          <div key={event.id}>
-            <TimelineNode age={event.age} />
-            <TimelineEvent event={event} onDelete={() => deleteEvent(event.id)} />
-          </div>
-        ))}
+        <div className="relative w-[2200px] h-full"> {/* 40px per year = 55 years * 40px */}
+          {ages.map(age => (
+            <div 
+              key={age} 
+              className={`absolute text-xs text-gray-500 ${age % 5 === 0 ? 'font-medium' : 'hidden'}`} 
+              style={{ left: `${(age - 15) * 40}px`, top: '50%' }}
+            >
+              <div className="absolute top-[-4px] w-px h-2 bg-gray-200"></div>
+              <div className="absolute mt-4">{age}</div>
+            </div>
+          ))}
+          
+          {/* Timeline nodes and events */}
+          {events.map(event => (
+            <div key={event.id} style={{ position: 'absolute', left: `${(event.age - 15) * 40}px` }}>
+              <TimelineNode age={event.age} />
+              <TimelineEvent event={event} onDelete={() => deleteEvent(event.id)} />
+            </div>
+          ))}
+        </div>
       </div>
       
       <AddEventModal 
