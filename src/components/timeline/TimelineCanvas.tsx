@@ -113,7 +113,11 @@ export default function TimelineCanvas() {
           {/* Timeline nodes and events */}
           {events.map(event => (
             <div key={event.id} style={{ position: 'absolute', left: `${(event.age - 15) * 40}px` }}>
-              <TimelineNode age={event.age} />
+              <TimelineNode 
+                age={event.age} 
+                type={event.type}
+                amount={event.amount}
+              />
               <TimelineEvent event={event} onDelete={() => deleteEvent(event.id)} />
             </div>
           ))}
