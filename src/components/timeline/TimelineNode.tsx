@@ -20,14 +20,19 @@ const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 10,
-        height: `${getArrowHeight()}px`,
         display: 'flex',
-        alignItems: 'flex-end'
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: `${getArrowHeight()}px`,
       }}>
         <ArrowUp 
           className="text-green-500" 
           size={24}
-          style={{ height: `${getArrowHeight()}px` }}
+          style={{ 
+            position: 'absolute',
+            bottom: '0',
+            height: `${getArrowHeight()}px` 
+          }}
         />
       </div>
     );
@@ -39,14 +44,19 @@ const TimelineNode: React.FC<TimelineNodeProps> = ({ age, type, amount }) => {
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 10,
-        height: `${getArrowHeight()}px`,
         display: 'flex',
-        alignItems: 'flex-start'
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: `${getArrowHeight()}px`,
       }}>
         <ArrowDown 
           className="text-red-500" 
           size={24}
-          style={{ height: `${getArrowHeight()}px` }}
+          style={{ 
+            position: 'absolute',
+            top: '0',
+            height: `${getArrowHeight()}px` 
+          }}
         />
       </div>
     );

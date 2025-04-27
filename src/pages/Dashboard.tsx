@@ -6,7 +6,8 @@ import HealthScoreCard from "@/components/health-score/HealthScoreCard";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Copy } from "lucide-react";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export default function Dashboard() {
   const handleCreateNewProject = () => {
@@ -15,6 +16,28 @@ export default function Dashboard() {
   
   const handleCloneProject = () => {
     toast.success('Project cloned! Now you can simulate "What If" scenarios.');
+  };
+  
+  const [chatMessage, setChatMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState<{message: string, isUser: boolean}[]>([]);
+  
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!chatMessage.trim()) return;
+    
+    // Add user message to chat history
+    setChatHistory([...chatHistory, {message: chatMessage, isUser: true}]);
+    
+    // Mock AI response
+    setTimeout(() => {
+      setChatHistory(prev => [
+        ...prev, 
+        {message: "I've updated your timeline based on your request. Check it out above!", isUser: false}
+      ]);
+    }, 1000);
+    
+    setChatMessage('');
   };
   
   return (
@@ -41,59 +64,63 @@ export default function Dashboard() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+          <Tabs defaultValue="timeline" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="timeline">Financial Timeline</TabsTrigger>
+              <TabsTrigger value="health-score">Health Score</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="timeline" className="w-full">
               <TimelineCanvas />
-              
-              <Card className="mt-8">
-                <CardContent className="pt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div>
-                      <p className="text-sm text-gray-500">Total Events</p>
-                      <p className="text-2xl font-semibold">4</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Timeline Span</p>
-                      <p className="text-2xl font-semibold">21-30 yrs</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Net Worth Projection</p>
-                      <p className="text-2xl font-semibold text-green-600">+$425k</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            </TabsContent>
+            
+            <TabsContent value="health-score">
+              <div className="max-w-md mx-auto">
+                <HealthScoreCard events={[1, 2, 3, 4]} />
+              </div>
+            </TabsContent>
+          </Tabs>
+          
+          {/* Chatbot Section */}
+          <div className="mt-8 border border-gray-200 rounded-lg bg-white shadow-sm overflow-hidden">
+            <div className="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 className="font-semibold text-lg">Financial Assistant</h3>
+              <p className="text-sm text-gray-600">Tell me what you want to do with your timeline</p>
             </div>
             
-            <div className="lg:col-span-1">
-              <HealthScoreCard events={[1, 2, 3, 4]} />
-              
-              <Card className="mt-8">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4">Improvement Tips</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start">
-                      <div className="h-6 w-6 rounded-full bg-fin-purple-light flex items-center justify-center mr-2 flex-shrink-0">
-                        <span className="text-fin-purple text-xs font-bold">1</span>
-                      </div>
-                      <p className="text-sm text-gray-600">Add a monthly savings goal to boost your emergency fund</p>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="h-6 w-6 rounded-full bg-fin-purple-light flex items-center justify-center mr-2 flex-shrink-0">
-                        <span className="text-fin-purple text-xs font-bold">2</span>
-                      </div>
-                      <p className="text-sm text-gray-600">Consider adding retirement planning milestones</p>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="h-6 w-6 rounded-full bg-fin-purple-light flex items-center justify-center mr-2 flex-shrink-0">
-                        <span className="text-fin-purple text-xs font-bold">3</span>
-                      </div>
-                      <p className="text-sm text-gray-600">Add more detail about your expected income growth</p>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="h-64 overflow-y-auto p-4 flex flex-col gap-3">
+              {chatHistory.length > 0 ? (
+                chatHistory.map((chat, index) => (
+                  <div 
+                    key={index} 
+                    className={`p-3 rounded-lg max-w-[80%] ${
+                      chat.isUser 
+                        ? 'bg-fin-purple-light text-fin-purple-dark ml-auto' 
+                        : 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    {chat.message}
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 italic mt-16">
+                  Try asking "Add a new income event at age 30 for $75,000" or "What happens if I buy a house at 35?"
+                </div>
+              )}
             </div>
+            
+            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-4 flex gap-2">
+              <input 
+                type="text"
+                className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fin-purple focus:border-transparent"
+                placeholder="Type your message..."
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+              />
+              <Button type="submit" className="bg-fin-purple hover:bg-fin-purple-dark">
+                Send
+              </Button>
+            </form>
           </div>
         </div>
       </main>

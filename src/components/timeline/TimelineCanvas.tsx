@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -77,9 +78,7 @@ export default function TimelineCanvas() {
   };
   
   return (
-    <div className="relative bg-white rounded-xl shadow-lg p-6 w-full max-w-6xl mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-6 text-center">Your Financial Timeline</h2>
-      
+    <div className="relative bg-white rounded-xl shadow-lg p-6 w-full mx-auto">
       <div className="flex justify-between mb-6">
         <div>
           <span className="text-sm text-gray-500">Current Age:</span>
@@ -94,7 +93,7 @@ export default function TimelineCanvas() {
         </Button>
       </div>
       
-      <div className="relative w-full h-[300px] overflow-x-auto p-4">
+      <div className="relative w-full h-[400px] overflow-x-auto p-4">
         <div className="timeline-line-horizontal"></div>
         
         {/* Age markers */}
