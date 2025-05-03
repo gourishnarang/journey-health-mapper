@@ -4,15 +4,32 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
-
+import { BASE_URL } from "@/utils/const";
 export default function LandingPage() {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      toast.success("Thanks for joining the waitlist! We'll be in touch soon.");
-      setEmail("");
+      try {
+        const response = await fetch(`${BASE_URL}/users/email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to join waitlist');
+        }
+        
+        toast.success("Thanks for joining the waitlist! We'll be in touch soon.");
+        setEmail("");
+      } catch (error) {
+        console.error('Error joining waitlist:', error);
+        toast.error("Oops! Something went wrong. Please try again later.");
+      }
     }
   };
 
@@ -71,7 +88,7 @@ export default function LandingPage() {
                   <Input
                     type="email"
                     placeholder="happyuser@finjourney.com"
-                    className="rounded-full px-8 py-7 bg-white text-gray-800 flex-grow border-2 border-fin-purple/20 focus:border-fin-purple text-xl"
+                    className="rounded-full px-8 py-7 bg-white text-gray-800 flex-grow border-2 border-fin-purple/20 focus:border-fin-purple text-xl placeholder:text-gray-400 placeholder:font-light"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
