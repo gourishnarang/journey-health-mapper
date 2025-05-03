@@ -6,15 +6,33 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { BASE_URL } from "@/utils/const";
 
 export default function LandingPage() {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      toast.success("Thanks for signing up! We'll be in touch soon.");
-      setEmail("");
+      try {
+        const response = await fetch(`${BASE_URL}/users/email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to submit email');
+        }
+
+        toast.success("Thanks for signing up! We'll be in touch soon.");
+        setEmail("");
+      } catch (error) {
+        console.error('Error submitting email:', error);
+        toast.error("Something went wrong. Please try again later.");
+      }
     }
   };
 
