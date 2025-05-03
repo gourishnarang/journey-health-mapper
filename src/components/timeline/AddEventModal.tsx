@@ -1,11 +1,11 @@
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Event } from './TimelineCanvas';
 
@@ -21,6 +21,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd })
   const [amount, setAmount] = useState('');
   const [age, setAge] = useState('');
   const [type, setType] = useState<'income' | 'expense' | 'goal' | 'milestone'>('milestone');
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [frequency, setFrequency] = useState<'monthly' | 'yearly'>('monthly');
+  const [endAge, setEndAge] = useState('');
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +38,13 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd })
       toast.error("Please enter a valid age between 0 and 90");
       return;
     }
+
+    if (isRecurring) {
+      if (!endAge || isNaN(Number(endAge)) || Number(endAge) <= Number(age) || Number(endAge) > 90) {
+        toast.error("Please enter a valid end age between the start age and 90");
+        return;
+      }
+    }
     
     const newEvent = {
       type,
@@ -42,6 +52,11 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd })
       description,
       amount: amount ? Number(amount) : 0,
       age: Number(age),
+      isRecurring,
+      ...(isRecurring && {
+        frequency,
+        endAge: Number(endAge)
+      })
     };
     
     onAdd(newEvent);
@@ -52,6 +67,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd })
     setAmount('');
     setAge('');
     setType('milestone');
+    setIsRecurring(false);
+    setFrequency('monthly');
+    setEndAge('');
   };
   
   return (
@@ -127,6 +145,50 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd })
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="recurring"
+                checked={isRecurring}
+                onCheckedChange={setIsRecurring}
+              />
+              <Label htmlFor="recurring">Recurring Event</Label>
+            </div>
+
+            {isRecurring && (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="frequency">Frequency</Label>
+                    <Select 
+                      value={frequency} 
+                      onValueChange={(value) => setFrequency(value as 'monthly' | 'yearly')}
+                    >
+                      <SelectTrigger id="frequency">
+                        <SelectValue placeholder="Select Frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="yearly">Yearly</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="endAge">End Age</Label>
+                    <Input
+                      id="endAge"
+                      type="number"
+                      min={age || "0"}
+                      max="90"
+                      placeholder="End Age"
+                      value={endAge}
+                      onChange={(e) => setEndAge(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           
           <div className="flex justify-end space-x-4">

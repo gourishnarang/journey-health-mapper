@@ -1,10 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function LandingPage() {
@@ -13,7 +11,7 @@ export default function LandingPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      toast.success("Thanks for signing up! We'll be in touch soon.");
+      toast.success("Thanks for joining the waitlist! We'll be in touch soon.");
       setEmail("");
     }
   };
@@ -37,14 +35,6 @@ export default function LandingPage() {
                 <p className="text-lg md:text-xl text-gray-700 mb-8">
                   FinJourney helps you map out your life's financial milestones in a fun, visual way. Build your timeline, set goals, and see your financial health score in real-time.
                 </p>
-                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                  <Button className="bg-fin-purple hover:bg-fin-purple-dark text-white px-8 py-6 text-lg" size="lg" asChild>
-                    <Link to="/signup">Get Started</Link>
-                  </Button>
-                  <Button variant="outline" className="border-fin-purple text-fin-purple hover:bg-fin-purple-light px-8 py-6 text-lg" size="lg" asChild>
-                    <Link to="/features">Learn More</Link>
-                  </Button>
-                </div>
               </div>
               <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in" style={{animationDelay: "0.4s"}}>
                 <div className="relative">
@@ -71,6 +61,28 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Waitlist Section - Centered and Bigger */}
+            <div className="mt-16 flex flex-col items-center">
+              <div id="waitlist-section" className="w-full max-w-2xl transition-all duration-300">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+                  <Input
+                    type="email"
+                    placeholder="happyuser@finjourney.com"
+                    className="rounded-full px-8 py-7 bg-white text-gray-800 flex-grow border-2 border-fin-purple/20 focus:border-fin-purple text-xl"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    className="bg-fin-purple hover:bg-fin-purple-dark text-white font-medium px-10 py-7 text-xl rounded-full whitespace-nowrap"
+                  >
+                    Join Waitlist
+                  </Button>
+                </form>
               </div>
             </div>
           </div>
@@ -125,79 +137,6 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
-        
-        {/* How It Works Section */}
-        <section className="py-20 bg-fin-light">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                How <span className="text-fin-purple">FinJourney</span> Works
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Three simple steps to start visualizing your financial future
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">1</div>
-                <h3 className="text-xl font-semibold mb-3">Create Your Profile</h3>
-                <p className="text-gray-600">
-                  Set up your basic information including current age, income, and savings.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">2</div>
-                <h3 className="text-xl font-semibold mb-3">Build Your Timeline</h3>
-                <p className="text-gray-600">
-                  Add important life events and financial goals to your personal timeline.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">3</div>
-                <h3 className="text-xl font-semibold mb-3">Get Your Health Score</h3>
-                <p className="text-gray-600">
-                  Receive instant feedback on your financial plan and share your achievements.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-fin-purple-dark to-fin-purple text-white">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Start Your FinJourney?
-              </h2>
-              <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Join thousands of users already planning their financial future in a fun, visual way.
-              </p>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="rounded-md px-4 py-2 bg-white text-gray-800 flex-grow"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Button 
-                  type="submit" 
-                  className="bg-fin-orange hover:bg-fin-orange/90 text-white font-medium px-6 py-2"
-                >
-                  Get Early Access
-                </Button>
-              </div>
-            </form>
           </div>
         </section>
       </main>
