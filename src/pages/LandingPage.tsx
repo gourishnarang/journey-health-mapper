@@ -42,7 +42,7 @@ export default function LandingPage() {
         <section className="bg-gradient-to-b from-fin-purple-light to-white py-20 overflow-hidden">
           <div className="container mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 md:pr-10 animate-fade-in" style={{animationDelay: "0.2s"}}>
+              <div className="md:w-1/2 md:pr-10 animate-fade-in text-center md:text-left" style={{animationDelay: "0.2s"}}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-fin-dark mb-6">
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-fin-purple-dark to-fin-purple">
                     Visualize
@@ -53,8 +53,8 @@ export default function LandingPage() {
                   FinJourney helps you map out your life's financial milestones in a fun, visual way. Build your timeline, set goals, and see your financial health score in real-time.
                 </p>
               </div>
-              <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in" style={{animationDelay: "0.4s"}}>
-                <div className="relative">
+              <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in flex justify-center" style={{animationDelay: "0.4s"}}>
+                <div className="relative mx-auto">
                   <div className="bg-white rounded-2xl shadow-xl p-6 transform rotate-2 z-20 max-w-lg mx-auto">
                     <div className="bg-gradient-to-r from-fin-purple-light to-white rounded-lg p-4 mb-4">
                       <div className="h-16 bg-fin-purple/10 rounded-lg mb-2 flex items-center justify-center">
@@ -84,7 +84,7 @@ export default function LandingPage() {
             {/* Waitlist Section - Centered and Bigger */}
             <div className="mt-16 flex flex-col items-center">
               <div id="waitlist-section" className="w-full max-w-2xl transition-all duration-300">
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 text-center">
                   <Input
                     type="email"
                     placeholder="happyuser@finjourney.com"
@@ -95,9 +95,10 @@ export default function LandingPage() {
                   />
                   <Button 
                     type="submit" 
-                    className="bg-fin-purple hover:bg-fin-purple-dark text-white font-medium px-10 py-7 text-xl rounded-full whitespace-nowrap"
+                    className="bg-fin-purple hover:bg-fin-purple-dark text-white font-medium px-6 sm:px-10 py-7 text-xl rounded-full whitespace-nowrap mx-auto sm:mx-0 w-full sm:w-auto"
                   >
-                    Join Waitlist
+                    <span className="hidden sm:inline">Join Waitlist</span>
+                    <span className="sm:hidden">Join</span>
                   </Button>
                 </form>
               </div>
@@ -118,8 +119,8 @@ export default function LandingPage() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-                <div className="w-14 h-14 rounded-full bg-fin-purple-light flex items-center justify-center mb-6">
+              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl text-center">
+                <div className="w-14 h-14 rounded-full bg-fin-purple-light flex items-center justify-center mb-6 mx-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-fin-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                   </svg>
@@ -130,8 +131,8 @@ export default function LandingPage() {
                 </p>
               </div>
               
-              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-                <div className="w-14 h-14 rounded-full bg-fin-orange/20 flex items-center justify-center mb-6">
+              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl text-center">
+                <div className="w-14 h-14 rounded-full bg-fin-orange/20 flex items-center justify-center mb-6 mx-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-fin-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
@@ -142,8 +143,8 @@ export default function LandingPage() {
                 </p>
               </div>
               
-              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-                <div className="w-14 h-14 rounded-full bg-fin-blue/20 flex items-center justify-center mb-6">
+              <div className="bg-white rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl text-center">
+                <div className="w-14 h-14 rounded-full bg-fin-blue/20 flex items-center justify-center mb-6 mx-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-fin-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
