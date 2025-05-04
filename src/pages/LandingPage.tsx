@@ -156,6 +156,46 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* How FinJourney Works Section */}
+        <section className="py-20 bg-fin-light">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                How <span className="text-fin-purple">FinJourney</span> Works
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Three simple steps to start visualizing your financial future
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">1</div>
+                <h3 className="text-xl font-semibold mb-3">Create Your Profile</h3>
+                <p className="text-gray-600">
+                  Set up your basic information including current age, income, and savings.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">2</div>
+                <h3 className="text-xl font-semibold mb-3">Build Your Timeline</h3>
+                <p className="text-gray-600">
+                  Add important life events and financial goals to your personal timeline.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-fin-purple text-white text-2xl font-bold flex items-center justify-center mx-auto mb-6">3</div>
+                <h3 className="text-xl font-semibold mb-3">Get Your Health Score</h3>
+                <p className="text-gray-600">
+                  Receive instant feedback on your financial plan and share your achievements.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       
       <Footer />
